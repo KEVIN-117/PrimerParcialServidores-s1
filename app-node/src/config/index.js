@@ -6,5 +6,7 @@ dotenv.config();
 export const config = {
   port: process.env.PORT || 3000,
   node: process.env.NODE_ENV || "development",
-  mongoUri: process.env.MONGODB_URI || "mongodb://localhost:27017/books-db",
+  dbHost: process.env.DB_HOST || "localhost",
+  dbPort: process.env.DB_PORT || 27017,
+  dbName: process.env.DB_NAME || "books-db",
 };

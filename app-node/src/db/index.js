@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 import { config } from "../config/index.js";
-const { mongoUri } = config;
+const { dbHost, dbName, dbPort } = config;
+
+const URI = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+
+console.log(`DB URI: ${URI}`);
 const connect = async () => {
   try {
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(URI);
 
     console.log("Database connected successfully");
   } catch (error) {

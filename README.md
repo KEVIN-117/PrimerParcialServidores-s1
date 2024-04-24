@@ -15,6 +15,37 @@ docker run --name contenedor-examen-app -d -p 8080:80 WORDPRESS_DB_HOST=172.17.0
 
 3.- Crear un pequeño proyecto (sin estilos ni detalles visuales o de validacion) para que una aplicación web escrita en nodejs se conecte a una base de datos para insertar y listar libros. (con los campos de titulo y autor.) 
 
+```bash
+git clone https://github.com/KEVIN-117/PrimerParcialServidores-s1.git
+cd PrimerParcialServidores-s1
+```
 
 
 4.- Escribir un archivo Dockerfile para desplegar el sistema de la pregunta 3, redireccionando los puertos apropiados.
+
+- envs
+
+```
+PORT
+DB_HOST
+DB_PORT
+DB_NAME
+```
+
+- Run Dockerfile
+
+- ejecutar un contenedor con la imagen de mongo
+```
+docker run --name some-mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=books -d mongo:latest
+```
+
+- crear la imagen de la aplicacion
+```
+docker build -t node-app .
+```
+
+- crear un contenedor a partir de la unagen
+
+```
+docker run --name node-app -e PORT=3000 -e DB_HOST=172.17.0.2 -e DB_PORT=27017 -e DB_NAME=books -p 3000:3000 node-app
+```
