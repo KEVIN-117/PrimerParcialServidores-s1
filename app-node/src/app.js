@@ -7,8 +7,12 @@ const __dirname = dirname(new URL(import.meta.url).pathname).substring(1);
 
 
 app.use(express.json());
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/static/build"));
 
 app.use("/api", bookRouter);
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/static/build/index.html");
+})
 
 export default app;
