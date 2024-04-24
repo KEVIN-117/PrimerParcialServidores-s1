@@ -1,0 +1,9 @@
+import app from "./src/app.js";
+import { config } from "./src/config/index.js";
+
+const { port, node } = config;
+app.listen(port, () => {
+  console.log(
+    `\x1b[32mServer running on port \x1b[35m${port}\x1b[0m \x1b[35m${node} mode. The URL is\x1b[0m \x1b[34mhttp://localhost:${port}\x1b[0m`
+  );
+});
