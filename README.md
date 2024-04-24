@@ -40,7 +40,7 @@ DB_NAME
 
 - ejecutar un contenedor con la imagen de mongo
 ```
-docker run --name some-mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=books -d mongo:latest
+docker run --name some-mongo -p 27017:27017 --volume --volume ${pwd}/data/mongo:/data/db -e MONGO_INITDB_DATABASE=books -d mongo:latest
 ```
 
 - crear la imagen de la aplicacion
