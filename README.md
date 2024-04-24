@@ -1,5 +1,9 @@
 # Primer Parcial Servidores
 
+```
+docker rm -f $(docker ps -aq)
+```
+
 1.- En Docker montar un contenedor de Mysql, con el nombre “contenedor-examen”, redireccionando los mismos puertos que usa mysql.
 
 ```bash
