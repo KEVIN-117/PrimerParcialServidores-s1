@@ -9,7 +9,7 @@ docker run --name contenedor-examen -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123 -
 2.- En Docker montar un contenedor para Wordpress con el nombre “wordpress-examen”, redireccionando el puerto que usa apache, este contenedor debe conectarse a la base de datos del primer contenedor “contenedor-examen”.
 
 ```bash
-docker run --name wordpress-examen -d -p 8080:80 WORDPRESS_DB_HOST=172.17.0.2 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=123 -e WORDPRESS_DB_NAME=q1-app wordpress
+docker run --name wordpress-examen -d -p 8080:80 -e WORDPRESS_DB_HOST=172.17.0.2 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=123 -e WORDPRESS_DB_NAME=q1-app wordpress
 ```
 
 
