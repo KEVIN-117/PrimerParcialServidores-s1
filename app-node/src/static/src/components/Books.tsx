@@ -7,66 +7,82 @@ export function Books() {
 
     const [books, setBooks] = useState<Book[]>([
             {
+                _id: 0,
                 title: 'Error',
                 author: 'Error'
             },
             {
+                _id: 1,
                 title: "Please check the server",
                 author: "server"
             },
         {
+            _id: 2,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 3,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 4,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 5,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 6,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 7,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 8,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 9,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 10,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 11,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 12,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 13,
             title: "Please check the server",
             author: "server"
         },
         {
+            _id: 14,
             title: 'Error',
             author: 'Error'
         },
         {
+            _id: 15,
             title: "Please check the server",
             author: "server"
         }

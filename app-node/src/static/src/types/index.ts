@@ -1,8 +1,12 @@
 export interface Data{
-    books: {title: string, author: string}[]
+    books: {
+        _id: any | number,
+        title: string,
+        author: string}[]
 }
 
 export interface Book{
+    _id: number,
     title: string,
     author: string
 }
