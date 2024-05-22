@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: debian
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       - name: Init Build
         run: echo "Build started"
   test:
-    runs-on: debian
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: echo "Tests passed"
   deploy:
-    runs-on: debian
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
