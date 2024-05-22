@@ -28,7 +28,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Login to docker
-        run: echo "${{ secrets.CI_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.CI_REGISTRY_USER }} --password-stdin
+        run: cat ~/credentials.txt | docker login --username kevin117rodriguez --password-stdin
       - name: Deply image to docker
         run: |
             echo "Initial setup"
