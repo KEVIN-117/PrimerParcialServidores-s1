@@ -24,7 +24,7 @@ jobs:
       - name: Login to docker
         run: |
             echo "Logging in to docker"
-            docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.CI_REGISTRY_PASSWORD }}
+            echo "${{ secrets.CI_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.CI_REGISTRY_USER }} --password-stdin
             echo "Logged in to docker"
       - name: Deply image to docker
         run: |
