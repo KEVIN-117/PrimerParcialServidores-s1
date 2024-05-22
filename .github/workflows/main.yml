@@ -31,9 +31,9 @@ jobs:
         run: |
             echo "Initial setup"
             cat ~/credentials.txt | docker login --username kevin117rodriguez --password-stdin
-            docker build -t appimage .
-            docker tag appimage appimage
-            docker push appimage
+            docker build -t kevin117rodriguez/appimage .
+            docker tag kevin117rodriguez/appimage kevin117rodriguez/appimage
+            docker push kevin117rodriguez/appimage
   test:
     runs-on: self-hosted
     needs: [init_db, build]
@@ -54,6 +54,6 @@ jobs:
         run: |
             echo "Deploying"
             docker pull $IMAGE_TAG
-            docker run --name app-deploy -e PORT=3000 -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_NAME=${{secrets.DB_NAME}} -p 3000:3000 appimage
+            docker run --name app-deploy -e PORT=3000 -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_NAME=${{secrets.DB_NAME}} -p 3000:3000 kevin117rodriguez/appimage
             docker ps
             echo "Deployed"
