@@ -5,6 +5,17 @@ on:
     branches: [main]
 
 jobs:
+  init_db:
+    runs-on: self-hosted
+    steps:
+      - name: Run db
+        run: echo "DB started"
+      - name: Run
+        run: docker run --name some-mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=${{ secrets.DB_NAME }} -d mongo:latest
+      - name: Init DB
+        run: |
+            docker ps
+            echo "DB initialized"
   build:
     runs-on: self-hosted
     steps:
@@ -26,7 +37,7 @@ jobs:
         run: echo "Tests passed"
   deploy:
     runs-on: self-hosted
-    needs: [build, test]
+    needs: [build, test, init_db]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
