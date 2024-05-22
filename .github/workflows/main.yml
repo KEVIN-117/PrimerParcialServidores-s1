@@ -36,8 +36,8 @@ jobs:
             ls -la
             whoami
             docker build -t appimage .
-            docker tag ${{secrets.IMAGE_TAG}} ${{secrets.IMAGE_TAG}}
-            docker push ${{secrets.IMAGE_TAG}}
+            docker tag appimage appimage
+            docker push appimage
   test:
     runs-on: self-hosted
     needs: [init_db, build]
@@ -58,6 +58,6 @@ jobs:
         run: |
             echo "Deploying"
             docker pull $IMAGE_TAG
-            docker run --name app-deploy -e PORT=3000 -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_NAME=${{secrets.DB_NAME}} -p 3000:3000 ${{secrets.IMAGE_TAG}}
+            docker run --name app-deploy -e PORT=3000 -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_NAME=${{secrets.DB_NAME}} -p 3000:3000 appimage
             docker ps
             echo "Deployed"
