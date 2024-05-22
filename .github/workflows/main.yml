@@ -27,14 +27,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Login to docker
-        run: cat ~/credentials.txt | docker login --username kevin117rodriguez --password-stdin
-      - name: Deply image to docker
+      - name: Deploy image to docker hub
         run: |
             echo "Initial setup"
-            pwd
-            ls -la
-            whoami
+            cat ~/credentials.txt | docker login --username kevin117rodriguez --password-stdin
             docker build -t appimage .
             docker tag appimage appimage
             docker push appimage
