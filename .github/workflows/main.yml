@@ -54,6 +54,7 @@ jobs:
         run: |
             echo "Deploying"
             docker pull kevin117rodriguez/appimage
+            docker rm app-deploy
             docker run --name app-deploy -e PORT=3000 -e DB_HOST=192.168.152.134 -e DB_PORT=27017 -e DB_NAME=books-db -p 3000:3000 kevin117rodriguez/appimage
             docker ps
             echo "Deployed"
