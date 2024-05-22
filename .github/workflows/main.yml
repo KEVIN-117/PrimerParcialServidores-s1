@@ -32,6 +32,8 @@ jobs:
       - name: Deply image to docker
         run: |
             echo "Initial setup"
+            pwd
+            ls -la
             whoami
             docker build -t ${{secrets.IMAGE_TAG}} .
             docker tag ${{secrets.IMAGE_TAG}} ${{secrets.IMAGE_TAG}}
