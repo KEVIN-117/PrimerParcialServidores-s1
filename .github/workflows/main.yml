@@ -21,12 +21,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: initial setup
+      - name: Login to docker
+        run: |
+            echo "Logging in to docker"
+            docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.CI_REGISTRY_PASSWORD }}
+            echo "Logged in to docker"
+      - name: Deply image to docker
         run: |
             echo "Initial setup"
             whoami
-            docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-            echo "Logged in to docker"
             docker build -t ${{secrets.IMAGE_TAG}} .
             docker tag ${{secrets.IMAGE_TAG}} ${{secrets.IMAGE_TAG}}
             docker push ${{secrets.IMAGE_TAG}}
