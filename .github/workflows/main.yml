@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: Run db
         run: echo "DB started"
+      - name: Remove db
+        run: |
+            docker stop books-db
+            docker rm books-db
+            echo "DB removed"
       - name: Run
         run: docker run --name books-db -p 27017:27017 -e MONGO_INITDB_DATABASE=${{ secrets.DB_NAME }} -d mongo:latest
       - name: Init DB
@@ -18,13 +23,12 @@ jobs:
             echo "DB initialized"
   build:
     runs-on: self-hosted
+    needs: init_db
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Login to docker
-        run: |
-            echo "${{ secrets.CI_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.CI_REGISTRY_USER }} --password-stdin
-            echo "Logged in to docker"
+        run: echo "${{ secrets.CI_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.CI_REGISTRY_USER }} --password-stdin
       - name: Deply image to docker
         run: |
             echo "Initial setup"
@@ -34,7 +38,7 @@ jobs:
             docker push ${{secrets.IMAGE_TAG}}
   test:
     runs-on: self-hosted
-    needs: build
+    needs: [init_db, build]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
