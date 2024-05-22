@@ -9,7 +9,6 @@ env:
   DOCKER_USERNAME: kevin117rodriguez
   DOCKER_TAG: kevin117rodriguez/appimage
 
-
 jobs:
   init_db:
     runs-on: self-hosted
@@ -53,6 +52,8 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: [build, test, init_db]
+    env:
+      DOCKER_CONTAINER: app-deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -60,10 +61,10 @@ jobs:
         run: |
             echo "Deploying"
             docker pull $DOCKER_TAG
-            if [ "$(docker ps -q -f name=$DOCKER_TAG)" ]; then
-                docker stop app-deploy
-                docker rm app-deploy
+            if [ "$(docker ps -q -f name=$DOCKER_CONTAINER)" ]; then
+                docker stop $DOCKER_CONTAINER
+                docker rm $DOCKER_CONTAINER
             fi
-            docker run --name app-deploy -e PORT=3000 -e DB_HOST=192.168.152.134 -e DB_PORT=27017 -e DB_NAME=books-db -p 3000:3000 $DOCKER_TAG
+            docker run --name $DOCKER_CONTAINER -e PORT=3000 -e DB_HOST=192.168.152.134 -e DB_PORT=27017 -e DB_NAME=books-db -p 3000:3000 $DOCKER_TAG
             docker ps
             echo "Deployed"
