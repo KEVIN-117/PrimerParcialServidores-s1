@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: debian
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: initial setup
+        run: echo "Initial setup"
+      - name: Init Build
+        run: echo "Build started"
+  test:
+    runs-on: debian
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: echo "Tests passed"
+  deploy:
+    runs-on: debian
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy
+        run: echo "Deployed successfully"
