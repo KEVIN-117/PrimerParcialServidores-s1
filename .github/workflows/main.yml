@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
 
+env:
+  MONGO_DATABASE: books-db
+  DOCKER_USERNAME: kevin117rodriguez
+  DOCKER_TAG: kevin117rodriguez/appimage
+
+
 jobs:
   init_db:
     runs-on: self-hosted
@@ -12,11 +18,11 @@ jobs:
         run: echo "DB started"
       - name: Remove db
         run: |
-            docker stop books-db
-            docker rm books-db
+            docker stop $MONGO_DATABASE
+            docker rm $MONGO_DATABASE
             echo "DB removed"
       - name: Run
-        run: docker run --name books-db -p 27017:27017 -e MONGO_INITDB_DATABASE=books-db -d mongo:latest
+        run: docker run --name books-db -p 27017:27017 -e MONGO_INITDB_DATABASE=$MONGO_DATABASE -d mongo:latest
       - name: Init DB
         run: |
             docker ps
@@ -30,10 +36,10 @@ jobs:
       - name: Deploy image to docker hub
         run: |
             echo "Initial setup"
-            cat ~/credentials.txt | docker login --username kevin117rodriguez --password-stdin
-            docker build -t kevin117rodriguez/appimage .
-            docker tag kevin117rodriguez/appimage kevin117rodriguez/appimage
-            docker push kevin117rodriguez/appimage
+            cat ~/credentials.txt | docker login --username $DOCKER_USERNAME --password-stdin
+            docker build -t $DOCKER_TAG .
+            docker tag $DOCKER_TAG $DOCKER_TAG
+            docker push $DOCKER_TAG
   test:
     runs-on: self-hosted
     needs: [init_db, build]
@@ -53,11 +59,11 @@ jobs:
       - name: Deploy
         run: |
             echo "Deploying"
-            docker pull kevin117rodriguez/appimage
-            if [ "$(docker ps -q -f name=app-deploy)" ]; then
+            docker pull $DOCKER_TAG
+            if [ "$(docker ps -q -f name=$DOCKER_TAG)" ]; then
                 docker stop app-deploy
                 docker rm app-deploy
             fi
-            docker run --name app-deploy -e PORT=3000 -e DB_HOST=192.168.152.134 -e DB_PORT=27017 -e DB_NAME=books-db -p 3000:3000 kevin117rodriguez/appimage
+            docker run --name app-deploy -e PORT=3000 -e DB_HOST=192.168.152.134 -e DB_PORT=27017 -e DB_NAME=books-db -p 3000:3000 $DOCKER_TAG
             docker ps
             echo "Deployed"
