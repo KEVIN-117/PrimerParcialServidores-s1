@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
-import { config } from "../config/index.js";
-const { dbHost, dbName, dbPort } = config;
+import { getConfig } from "../config/index.js";
+const { dbHost, dbName, dbPort, node, dbUser, pass } = getConfig();
 
-const URI = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+const URI = node === "development"? `mongodb://${dbHost}:${dbPort}/${dbName}` : `mongodb+srv://${dbUser}:${pass}@cluster0.mto6mpe.mongodb.net/`;
+
+console.log(URI)
 
 console.log(`DB URI: ${URI}`);
 const connect = async () => {

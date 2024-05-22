@@ -1,11 +1,22 @@
-import dotenv from "dotenv";
-
+import dotenv from 'dotenv';
 dotenv.config();
 
-export const config = {
-  port: process.env.PORT || 3000,
-  node: process.env.NODE_ENV || "development",
-  dbHost: process.env.DB_HOST || "localhost",
-  dbPort: process.env.DB_PORT || 27017,
-  dbName: process.env.DB_NAME || "books-db",
+const config = {
+  dev:{
+    port: process.env.PORT,
+    node: process.env.NODE_ENV,
+    dbHost: process.env.DB_HOST,
+    dbPort: process.env.DB_PORT,
+    dbName: process.env.DB_NAME,
+  },
+  production:{
+    port: process.env.PORT,
+    node: process.env.NODE_ENV,
+    dbUser: process.env.DB_USER,
+    pass: process.env.DB_PASS
+  }
 };
+
+export function getConfig() {
+  return process.env.NODE_ENV === "production" ? config.production : config.dev;
+}
