@@ -22,9 +22,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: initial setup
-        run: echo "Initial setup"
-      - name: Init Build
-        run: echo "Build started"
+        run: |
+            echo "Initial setup"
+            whoami
+            docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+            echo "Logged in to docker"
+            docker build -t ${{secrets.IMAGE_TAG}} .
+            docker tag ${{secrets.IMAGE_TAG}} ${{secrets.IMAGE_TAG}}
+            docker push ${{secrets.IMAGE_TAG}}
   test:
     runs-on: self-hosted
     needs: build
@@ -42,4 +47,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy
-        run: echo "Deployed successfully"
+        run: |
+            echo "Deploying"
+            docker pull $IMAGE_TAG
+            docker run --name app-deploy -e PORT=3000 -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_NAME=${{secrets.DB_NAME}} -p 3000:3000 ${{secrets.IMAGE_TAG}}
+            docker ps
+            echo "Deployed"
